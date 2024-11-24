@@ -1,0 +1,167 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 310, 0, 160) -- Slightly larger for border
+mainFrame.Position = UDim2.new(0.5, -155, 0.5, -80)
+mainFrame.BackgroundColor3 = Color3.fromRGB(50, 0, 100) -- Border color (Dark Purple)
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = screenGui
+
+local innerFrame = Instance.new("Frame")
+innerFrame.Size = UDim2.new(1, -10, 1, -10) -- Inside the border
+innerFrame.Position = UDim2.new(0, 5, 0, 5)
+innerFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+innerFrame.BackgroundTransparency = 0.2
+innerFrame.BorderSizePixel = 0
+innerFrame.Parent = mainFrame
+
+local innerCorner = Instance.new("UICorner")
+innerCorner.CornerRadius = UDim.new(0, 12)
+innerCorner.Parent = innerFrame
+
+local outerCorner = Instance.new("UICorner")
+outerCorner.CornerRadius = UDim.new(0, 15)
+outerCorner.Parent = mainFrame
+
+local gradient = Instance.new("UIGradient")
+gradient.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(150, 0, 255)), -- Purple
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 200, 255)) -- Light Blue
+}
+gradient.Rotation = 45
+gradient.Parent = innerFrame
+
+local petsGoLabel = Instance.new("TextLabel")
+petsGoLabel.Size = UDim2.new(1, 0, 0, 20)
+petsGoLabel.Position = UDim2.new(0, 0, 0.1, 0)
+petsGoLabel.BackgroundTransparency = 1
+petsGoLabel.Text = "PETS GO!"
+petsGoLabel.Font = Enum.Font.GothamBold
+petsGoLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+petsGoLabel.TextSize = 14
+petsGoLabel.Parent = innerFrame
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0, 30)
+titleLabel.Position = UDim2.new(0, 0, 0.25, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "Trade Scam"
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextSize = 20
+titleLabel.Parent = innerFrame
+
+local creditsLabel = Instance.new("TextLabel")
+creditsLabel.Size = UDim2.new(1, 0, 0, 20)
+creditsLabel.Position = UDim2.new(0, 0, 0.45, 0)
+creditsLabel.BackgroundTransparency = 1
+creditsLabel.Text = "Made By - StormHub"
+creditsLabel.Font = Enum.Font.Gotham
+creditsLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+creditsLabel.TextSize = 14
+creditsLabel.Parent = innerFrame
+
+local onButton = Instance.new("TextButton")
+onButton.Size = UDim2.new(0.4, 0, 0.3, 0)
+onButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+onButton.BackgroundColor3 = Color3.fromRGB(125, 0, 255) -- Purple
+onButton.Text = "ON"
+onButton.Font = Enum.Font.Gotham
+onButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+onButton.TextSize = 16
+onButton.Parent = innerFrame
+
+local onBorder = Instance.new("Frame")
+onBorder.Size = UDim2.new(1, 4, 1, 4)
+onBorder.Position = UDim2.new(-0.02, 0, -0.02, 0)
+onBorder.BackgroundColor3 = Color3.fromRGB(100, 0, 200)
+onBorder.Parent = onButton
+onBorder.ZIndex = -1
+
+local onButtonCorner = Instance.new("UICorner")
+onButtonCorner.CornerRadius = UDim.new(0, 8)
+onButtonCorner.Parent = onButton
+
+local onBorderCorner = Instance.new("UICorner")
+onBorderCorner.CornerRadius = UDim.new(0, 10)
+onBorderCorner.Parent = onBorder
+
+local offButton = Instance.new("TextButton")
+offButton.Size = UDim2.new(0.4, 0, 0.3, 0)
+offButton.Position = UDim2.new(0.5, 0, 0.6, 0)
+offButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255) -- Light Blue
+offButton.Text = "OFF"
+offButton.Font = Enum.Font.Gotham
+offButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+offButton.TextSize = 16
+offButton.Parent = innerFrame
+
+local offBorder = Instance.new("Frame")
+offBorder.Size = UDim2.new(1, 4, 1, 4)
+offBorder.Position = UDim2.new(-0.02, 0, -0.02, 0)
+offBorder.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+offBorder.Parent = offButton
+offBorder.ZIndex = -1
+
+local offButtonCorner = Instance.new("UICorner")
+offButtonCorner.CornerRadius = UDim.new(0, 8)
+offButtonCorner.Parent = offButton
+
+local offBorderCorner = Instance.new("UICorner")
+offBorderCorner.CornerRadius = UDim.new(0, 10)
+offBorderCorner.Parent = offBorder
+
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1, 0, 0, 30)
+statusLabel.Position = UDim2.new(0, 0, 0.85, 0)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Text = "Status: OFF"
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+statusLabel.TextSize = 16
+statusLabel.Parent = innerFrame
+
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+mainFrame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = mainFrame.Position
+	end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+		local delta = input.Position - dragStart
+		mainFrame.Position = UDim2.new(
+			startPos.X.Scale,
+			startPos.X.Offset + delta.X,
+			startPos.Y.Scale,
+			startPos.Y.Offset + delta.Y
+		)
+	end
+end)
+
+mainFrame.InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = false
+	end
+end)
+
+local isOn = false
+
+onButton.MouseButton1Click:Connect(function()
+	isOn = true
+	statusLabel.Text = "Status: ON"
+	innerFrame.BackgroundColor3 = Color3.fromRGB(100, 50, 150) -- Subtle purple when ON
+end)
+
+offButton.MouseButton1Click:Connect(function()
+	isOn = false
+	statusLabel.Text = "Status: OFF"
+	innerFrame.BackgroundColor3 = Color3.fromRGB(20, 50, 80) -- Cool blue tone when OFF
+end)
